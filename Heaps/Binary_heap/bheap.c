@@ -2,9 +2,9 @@
 #include <stdlib.h>
 #include<malloc.h>
 
-#define LEFT_CHILD(i) (2 * i)
-#define RIGHT_CHILD(i) ((2*i) + 1)
-#define PARENT(i) ( (i%2) ? (i/2) : ((i/2) - 1) )
+#define LEFT_CHILD(i) ((2 * i) + 1)
+#define RIGHT_CHILD(i) ((2*i) + 2)
+#define PARENT(i) ((i-1)/2)
 
 #define SWAP(a, b) do {		\
 		int c = a;	\
@@ -36,10 +36,11 @@ static void bheap_heapify_r(struct bheap *b, int element)
 		(LEFT_CHILD(element) < b->count) && 
 		(RIGHT_CHILD(element) < b->count)) {
 
-		int largest = element;
-		/* Get the maximum index of these 3*/
+		/* Get the maximum index of Left right and parent nodes*/
+		int largest = RIGHT_CHILD(element);
 		if( b->key[LEFT_CHILD(element)] >= b->key[RIGHT_CHILD(element)])
 			largest = LEFT_CHILD(element);
+
 		if(b->key[largest] > b->key[element]) {
 			SWAP(b->key[largest], b->key[element]);
 			bheap_heapify_r(b, largest);
@@ -53,17 +54,18 @@ static void bheap_heapify_i(struct bheap *b, int element)
 		(LEFT_CHILD(element) < b->count) && 
 		(RIGHT_CHILD(element) < b->count)) {
 
-		int largest = element;
+		int largest = RIGHT_CHILD(element);
 		/* Get the maximum index of these 3*/
 		if( b->key[LEFT_CHILD(element)] >= b->key[RIGHT_CHILD(element)])
 			largest = LEFT_CHILD(element);
+
 		if(b->key[largest] > b->key[element]) {
 			SWAP(b->key[largest], b->key[element]);
 			element = largest;
 			continue;
 		}
 		break;
-	}	
+	}
 }
 
 int bheap_delete_max(struct bheap *b)
@@ -120,6 +122,9 @@ int bheap_insert(struct bheap *b, int key)
 
 void bheap_build(struct bheap *b)
 {
+	int i;
+	/* Idea is, if non leaf is heapified 
+	it would automatically traverse till root. */
 	for(i=(b->count-1)/2; i < 0; i--) {
 		bheap_heapify_r(b, i);
 	}
