@@ -228,7 +228,7 @@ static bnode_t* promote(btree_t *tree, bnode_t *node)
 		right->parent = tmp;
 		i = insert_right_pos(tmp, pkey);
 		add_children(tmp, i, left, right);
-		goto out;				
+		goto out;
 	}
 prom:
 	return node->parent;
@@ -284,3 +284,71 @@ void btree_insert(btree_t *btree, int key, void *data)
 	}
 }
 
+static int search_idx(key_t *key, int key, int *idx)
+{
+	int i = 0;
+
+	/*TODO: MAKE BINARY SEARCH*/
+	while(key[i]) {
+		if(key[i]->key == key) {
+			*idx = i
+			break;
+		}
+		else if(key[i]->key >= key){
+			break;
+		}
+		i++;
+	}
+
+	if(i-1)
+		return i-1;
+
+	return 0;
+}
+
+static bnode_t* search_tree(btree_t *tree, int key)
+{
+	bnode_t *node = tree->head;
+	int idx = -1;
+	int i;
+
+	if(!node) {
+		return NULL;
+	}
+
+	while(node) {
+
+		idx = search_idx(node->key, key, &i);
+		if(i >= 0) {
+			break;					
+		}
+
+		if(!node->children[i]) 
+			goto out;
+
+		node = node->children[i];		
+	}
+	node->
+	
+out:
+	return NULL;
+
+}
+
+
+void* btree_delete(btree_t *btree, int key)
+{
+	bnode_t *node;
+	void *data;
+
+	data = search_delete_key(btree, key);
+	if(!data)
+		goto out;
+
+	if(UNDERFLOW(node->key_count, btree->branching_factor)){
+		while(node = demote(btree, node)) ;
+	}
+	return data;
+out:
+	return NULL;
+}

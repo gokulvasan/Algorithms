@@ -5,8 +5,6 @@
 int fibonacci(int n, int *arr)
 {
 	int val;
-	
-	printf("%d\n", n);
 
 	if(!arr) {
 		arr = malloc(sizeof(int) * n);
@@ -30,5 +28,5 @@ int main()
 {
 	int *arr = NULL;
 
-	printf("fib: 7 is %d", fibonacci(7, arr));
+	printf("fib: 8 is %d", fibonacci(8, arr));
 }

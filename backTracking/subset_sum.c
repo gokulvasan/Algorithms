@@ -119,14 +119,12 @@ void print_stack()
 	printf("]\n");
 }
 
-
-/* This subrouting assumes that A is sorted
+/* This subroutine assumes that A is sorted
  	in descending order */
 void subset_sum(int *A, int len, int sum)
 {
 	int i, dv;
 
-	printf("len: %d\n", len);
 	if(len <= 0)
 		return;	
 

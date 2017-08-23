@@ -135,5 +135,5 @@ int main()
 
 	matrix_init(&m, 8, 8);
 	ktour(&m, 0, 0);
-	print(&m);	
+	print(&m);
 }
