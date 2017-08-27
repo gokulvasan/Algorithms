@@ -19,13 +19,18 @@ int* msd_radix_sort(int *a, int cnt, int digit, int range)
 		tbuf[i] = malloc(sizeof(int) * cnt);
 		memset(tbuf[i], 0x00, sizeof(int) * cnt);
 	}
+
+	for(i=0; i<cnt; i++) {
+		tbuf[loop][i] = a[i];
+	}
+
 	for(i=digit-1; i>=0; i--) {
 
 		memset(k, 0x00, sizeof(int)*range+1);	
 
 		/// Accumulate count.
 		for(j=0; j<cnt; j++) {
-			int tmp = (a[j]/base) % 10;
+			int tmp = (tbuf[loop][j]/base) % 10;
 			k[tmp+1]++;
 		}
 
@@ -39,19 +44,20 @@ int* msd_radix_sort(int *a, int cnt, int digit, int range)
 		 * Be careful: Stability needs to be preserved.
 		*/
 		for(j=0; j<cnt; j++) {
-
-			int tmp = k[(a[j]/base) % 10];
-			tbuf[loop][tmp] = a[j];
-			k[(a[j]/base) % 10]++;
+			int tmp = k[(tbuf[loop][j]/base) % 10];
+			tbuf[!loop][tmp] = tbuf[loop][j];
+			k[(tbuf[loop][j]/base) % 10]++;
 		}
 
-		for(j=0; j<cnt; j++){
-			a[j] = tbuf[loop][j];
-		}
-	
 		memset(tbuf[loop], 0x00, sizeof(int) * cnt);
 		base = base * 10;
+		loop = !loop;
 	}
+
+	for(j=0; j<cnt; j++){
+		a[j] = tbuf[loop][j];
+	}
+
 	return a;
 }
 
