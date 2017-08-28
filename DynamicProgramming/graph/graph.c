@@ -72,12 +72,46 @@ void print_adj(graph_t *G)
 		n = v->node;
 		printf("%d: [", v->vertice);
 		while(n) {
-			printf("%d ", n->vertice);
+			printf("%d:%d ", n->vertice, n->weight);
 			n = n->nxt;
 		}
 		printf("]\n");
 		v = v->nxt;
 	}
+}
+
+
+/*
+	T[i] = Min[ cost(i, j) + T[j] ]
+	index = i-1.
+	j = i to nxt. 
+*/
+#define IMAX (0xFFFF)
+
+void min_cost(graph_t *G)
+{
+	int *a = malloc(sizeof(int)*G->cnt);
+	vertice_lst_t *l = G->head;
+	vertice_node_t *e;
+	int index, i;
+
+	while(l) {
+		a[l->vertice -1] = IMAX;
+		e = l->node;
+		if(!e)
+			a[l->vertice-1] = 0; 
+		while(e) {
+			int c = e->weight + a[e->vertice-1];
+			if(c < a[l->vertice-1])
+				a[l->vertice-1] = c;
+			e = e->nxt;
+		}
+		l = l->nxt;
+	}
+
+	printf("MIN PATH:\n");
+	printf("%d ", a[0]);
+	printf("\n");
 }
 
 int main()
@@ -88,13 +122,26 @@ int main()
 	add_vertice(g, 2);
 	add_vertice(g, 3);
 	add_vertice(g, 4);
+	add_vertice(g, 5);
+	add_vertice(g, 6);
+	add_vertice(g, 7);
+	add_vertice(g, 8);
 
-	add_edge(g, 1, 2, 12);
-	add_edge(g, 1, 3, 9);
-	add_edge(g, 1, 4, 12);
-	add_edge(g, 2, 4, 4);
+	add_edge(g, 1, 2, 1);
+	add_edge(g, 1, 3, 3);
+	add_edge(g, 1, 4, 5);
+	add_edge(g, 2, 5, 4);
+	add_edge(g, 2, 6, 11);
+	add_edge(g, 3, 5, 9);
+	add_edge(g, 3, 6, 5);
+	add_edge(g, 3, 7, 16);
+	add_edge(g, 4, 7, 2);
+	add_edge(g, 5, 8, 18);
+	add_edge(g, 6, 8, 13);
+	add_edge(g, 7, 8, 12);
 
 	print_adj(g);
-
+	
+	min_cost(g);
 	return 0;
 }
