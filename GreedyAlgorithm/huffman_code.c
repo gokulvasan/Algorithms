@@ -3,8 +3,8 @@
 #include <string.h>
 
 
-char a[] = "abbaaaacdddeeefffffffff";
-int range = 6;
+char a[] = "abbaaaacdddeeefffffffffggggg";
+int range = 7;
 
 typedef struct character {
 	char a;
@@ -81,9 +81,9 @@ static void swap(char_t *A, char_t *B)
 #define lchild(i) ((2*(i))+1)
 #define rchild(i) ((2*(i))+2)
 
-void max_heapify(char_lst_t *a, int i)
+void min_heapify(char_lst_t *a, int i)
 {
-	int largest;
+	int smallest;
 	char_t *lst = a->lst;
 
 	if((a->cnt <= i) || 
@@ -92,18 +92,18 @@ void max_heapify(char_lst_t *a, int i)
 		return;
 	
 	if(lchild(i) >= a->cnt)
-		largest = rchild(i);
+		smallest = rchild(i);
 	else if(rchild(i) >= a->cnt)
-		largest = lchild(i);
+		smallest = lchild(i);
 	else {
-		largest = lchild(i);
-		if(lst[lchild(i)].cnt < lst[rchild(i)].cnt)
-			largest = rchild(i);
+		smallest = lchild(i);
+		if(lst[lchild(i)].cnt  > lst[rchild(i)].cnt)
+			smallest = rchild(i);
 	}
 
-	if(lst[i].cnt < lst[largest].cnt) {
-		swap(&lst[i], &lst[largest]);
-		max_heapify(a, largest);
+	if(lst[i].cnt > lst[smallest].cnt) {
+		swap(&lst[i], &lst[smallest]);
+		min_heapify(a, smallest);
 	}
 }
 
@@ -111,12 +111,17 @@ void build_heap(char_lst_t *a)
 {
 	int i;
 
-	for(i=(a->cnt)/2; i>=0; i--)
-		max_heapify(a, i);
+	for(i=(a->cnt+1)/2; i>=0; i--)
+		min_heapify(a, i);
 }
+
+
 char_t* extract_min(char_lst_t *a)
 {
 	a->cnt--;
+	swap(&a->lst[0], &a->lst[a->cnt]);
+	min_heapify(a, 0);
+
 	return &a->lst[a->cnt];
 }
 
