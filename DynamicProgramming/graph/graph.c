@@ -2,16 +2,23 @@
 #include <stdlib.h>
 #include <string.h>
 
+/// representation of a edge, wrong name
 typedef struct vertice {
-	int vertice;
-	int weight;
+	int vertice;	/// vertice id
+	int weight;	/// weight of the edge btw (u,v)
 	struct vertice *nxt;			
 }vertice_node_t;
 
+/// representation of a vertice:
+///	[v1]-[E1]-[E2]
+///	 |
+///	[v2]-[]
+///	 |
+///	[v3]-[]
 typedef struct vertice_lst {
-	int vertice;
-	vertice_node_t *node;
-	struct vertice_lst *nxt;
+	int vertice;	/// vertice id
+	vertice_node_t *node;	/// edge representation
+	struct vertice_lst *nxt; /// next vertice in list	
 } vertice_lst_t;
 
 typedef struct graph {
@@ -82,9 +89,21 @@ void print_adj(graph_t *G)
 
 
 /*
+MULTI STAGE GRAPH:
+
+
+Recursive equation:
+
+	Min[i] = MIN(cost(i -> i+1))
+
+So:
+
 	T[i] = Min[ cost(i, j) + T[j] ]
 	index = i-1.
-	j = i to nxt. 
+	j = i to nxt.
+
+	IDEA: Each node's min weight + connected node+1 weight.
+	if this is done	recursively. 
 */
 #define IMAX (0xFFFF)
 
@@ -143,5 +162,6 @@ int main()
 	print_adj(g);
 	
 	min_cost(g);
+
 	return 0;
 }

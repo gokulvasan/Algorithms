@@ -6,12 +6,12 @@
 		Branching factor: P
 			Determines number of branch a node can
 			make.
-		Key: Each node will have atleast CEIL[P/2] keys
+		Key: Each node will have atleast P/2 keys
 			and atmost P-1 keys.
 
-			if(<CEIL[P/2])
+			if(BF< P/2)
 				declare UNDERFLOW
-			if(>P-1)
+			if(BF > P-1)
 				declare OVERFLOW.
 
 		Children: Each node can have atmost P children.
@@ -33,11 +33,14 @@
 
 	In general, Formally:
 		Btree can be viewed as a tuple:
-			# < C1<K1, D1>, C2<K2, D2>, ...,Cq<Kq, Dq> Cq+1 >.
+			# < C1 <K1, D1>, C2 <K2, D2>, ...,Cq <Kq, Dq> Cq+1 >.
 			# q < P-1.
 			# Cq is less than or equal to <Kq, Dq> and
 				 greater than <K[q-1], D[q-1]>.
-
+		P.S.
+			* C: child
+			* K: Key
+			* D: Data
 	PRIMARY OPERATIONS:
 		PROMOTE: if(OVERFLOW)
 				promote p/2 key.
@@ -50,10 +53,11 @@
 
 P.S. Always add a key to the corresponding leaf of a node. 
 *************************************************************************************/
-
-#define OVERFLOW(key_count, branching_factor) (((key_count) > (branching_factor-1))?1:0)
-#define UNDERFLOW(key_count, branching_factor) (((key_count) < (branching_factor-1))?1:0)
+// #define CEIL(X, Y) ((X%Y) ? ((X/Y) + 1) : (X/Y))
+#define OVERFLOW(key_count, branching_factor) (((key_count) > (branching_factor-1)) ? 1 :  0)
+#define UNDERFLOW(key_count, branching_factor) (((key_count) < (branching_factor/2)) ? 1 : 0)
 #define IS_LEAF(n) (n->leaf_node)
+
 
 typedef struct key {
 	int key;

@@ -103,7 +103,6 @@ int jobSequencing(job_t *j, int cnt, int *tslot, int max)
 
 int main()
 {
-	int ts[5];
+	int ts[6];
 	jobSequencing(j, ARR_SIZE(j), ts, ARR_SIZE(ts));
 }
-

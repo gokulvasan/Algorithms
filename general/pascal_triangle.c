@@ -30,7 +30,6 @@ void pascal_triangle(int n)
 		for(j = 1; j < i; j++) {
 			a[i][j] = a[i-1][j-1] + a[i-1][j];	
 		}
-
 		print(a[i], j);
 	}
 }
