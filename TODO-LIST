@@ -1,0 +1,63 @@
+1. Graph
+1.1. BFT
+1.2. DFT
+1.3. Topological sort
+
+
+2. Dynamic:
+2.1. subset sum
+2.2. warshall
+2.3. knapsack
+2.4. Travelling salesman
+2.5. cutting a rod
+2.6. weighted job scheduling
+2.7. palindrome
+2.8. ugly number
+
+
+3. Greedy
+3.1. spanning
+3.2. Dijkstra
+
+4. Trees
+4.1. interval
+4.2. suffix
+4.3. splay.
+
+5. Arrays
+5.1. find a pair sum
+5.3. maximum difference
+5.4. seperate 0's and 1's
+5.5. sort array in wave form
+5.6. rain water
+
+6. Bit Manipulation
+6.1. Check whether the given number is power of 2
+6.2. Find a next higher number of a given number which is a power of 2.
+6.3. Multiply a given number with 7 without using multiplication
+
+
+7. Strings
+7.1. rabin karp
+7.2. boyer moore
+7.3. suffix
+
+
+8. Backtrack
+8.1. n queen problem.
+
+
+9. Stack and queue
+9.1. tower of hanoi
+9.2. stack : get minimum
+9.3. infix, postfix, prefix
+9.4. paranthesis check
+9.5. celebrity problem.
+
+10. Mathematic
+10.1. prime number.
+10.2. fibonacci
+
+11. Sorting
+11.1. dutch flag and quick sort.
+11.2. suffix.
