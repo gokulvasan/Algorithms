@@ -167,6 +167,43 @@ int bft(graph_t *G)
 	printf("\n");
 }
 
+static vertex_node_t* edge_to_vertex(graph_t *G, int vid) 
+{
+	vertex_node_t *t = G->repr;
+
+	while(t) {
+
+		if(t->vid == vid) 
+			return t;
+
+		t = t->nxt;
+	}
+	return NULL;	
+}
+
+void dft(graph_t *G, vertex_node_t *lst, int *v)
+{
+	edge_t *e;
+	
+	printf("%d ", lst->vid);
+	if(!v) {
+		v = malloc(sizeof(int) * G->cnt);
+		memset(v, 0x00, sizeof(int) * G->cnt);
+	}
+	if(!lst)
+		return;
+
+	e = lst->head;
+	while(e) {
+		if(!v[e->vid]) {
+			vertex_node_t *nxt = edge_to_vertex(G, e->vid);
+			v[e->vid] = 1;
+			dft(G, nxt, v);
+		}
+		e = e->nxt;
+	}
+}
+
 void print_graph(graph_t *G)
 {
 	int i;
@@ -199,7 +236,7 @@ int main()
 
 	print_graph(G);
 
-	bft(G);
-	
+	dft(G, G->repr, NULL);
+
 	return 0;
 }
