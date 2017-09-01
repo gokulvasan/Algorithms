@@ -43,18 +43,20 @@ typedef struct adjacency {
 void insert_edge(graph_t *G, int u, int v)
 {
 	vertex_node_t *h =(vertex_node_t*)G->repr;
-	int i;
-
+	int i=0;
+	
+	printf("%d %d:\n", u, v);
 	while(h) {
 
 		int e = -1;
 
+		printf("%d \n", h->vid);
 		if(u == h->vid) {
-			e = u;
+			e = v;
 			i++;
 		}
 		else if(v == h->vid) {
-			e = v;
+			e = u;
 			i++;
 		}
 
@@ -145,6 +147,7 @@ int bft(graph_t *G)
 
 	memset(v, 0x00, sizeof(int) * G->cnt);
 	//u=v=0;
+	v[lst->vid] = 1;
 
 	for(i=0; i<G->cnt; i++) {
 
@@ -164,8 +167,39 @@ int bft(graph_t *G)
 	printf("\n");
 }
 
+void print_graph(graph_t *G)
+{
+	int i;
+	vertex_node_t *lst = (vertex_node_t *)G->repr; 
+	
+	for(i=0; i < G->cnt; i++) {
+		edge_t *e = lst->head;
+		printf("%d:-[ ", lst->vid);
+		while(e) {
+			printf("%d", e->vid);
+			e = e->nxt;
+		}
+		printf("]\n");
+		lst = lst->nxt;
+	}
+
+}
 int main()
 {
+	graph_t *G = graph_init(adj_list, undir, 6);
+
+	insert_edge(G, 0, 1);
+	insert_edge(G, 0, 2);	
+	insert_edge(G, 2, 3);
+	insert_edge(G, 2, 4);
+	insert_edge(G, 1, 4);
+	insert_edge(G, 1, 3);
+	insert_edge(G, 3, 5);
+	insert_edge(G, 4, 5);
+
+	print_graph(G);
+
+	bft(G);
 	
 	return 0;
 }
