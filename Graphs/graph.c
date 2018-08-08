@@ -45,12 +45,10 @@ void insert_edge(graph_t *G, int u, int v)
 	vertex_node_t *h =(vertex_node_t*)G->repr;
 	int i=0;
 	
-	printf("%d %d:\n", u, v);
 	while(h) {
 
 		int e = -1;
 
-		printf("%d \n", h->vid);
 		if(u == h->vid) {
 			e = v;
 			i++;
@@ -213,7 +211,7 @@ void print_graph(graph_t *G)
 		edge_t *e = lst->head;
 		printf("%d:-[ ", lst->vid);
 		while(e) {
-			printf("%d", e->vid);
+			printf("%d, ", e->vid);
 			e = e->nxt;
 		}
 		printf("]\n");

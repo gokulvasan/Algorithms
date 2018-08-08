@@ -150,6 +150,8 @@ static huffman_t*  node_insert(huffman_t *root, huffman_t *node)
 	if(root->left) {
 		if(!root->right) {
 			huffman_t *new_root = malloc(sizeof(*new_root));
+			
+			/// maintain order
 			if(root->left->freq > node->freq) {
 				huffman_t *t = root->left;
 				root->left = node;
@@ -160,6 +162,9 @@ static huffman_t*  node_insert(huffman_t *root, huffman_t *node)
 			}
 			root->freq += node->freq;
 			
+			/// populate new root.
+			/// Here is the problem:
+			/// this unnecessarily increases height of a tree.
 			new_root->left = root;
 			new_root->freq = root->freq;
 			new_root->right = NULL;
