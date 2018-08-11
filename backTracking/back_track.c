@@ -51,7 +51,45 @@ void permute (char *c, const int pos, const int len)
 	return;
 }
 
-void combinate(char *c, const int len)
+typedef unsigned int u32;
+
+void print_bit_vector (u32 *bit_vector, signed int lsb)
+{
+	int i = lsb-1;
+	u32 k = 1;
+
+	printf("%d ==>", *bit_vector);
+	do {
+		k = 1 << i ;
+		printf("%c", ((*bit_vector) & (1 << i)) > 0 ? '1': '0');
+		i--;
+	} while(i >= 0);
+
+	printf("\n");
+}
+
+#define set_bit(B, p)  ((*B) = ((*B) | (1 << p)))
+#define uset_bit(B, p) ((*B) = ((*B) & ~(1 << p)))
+
+void binary (u32 *bit_vector, signed int pos, signed int lsb)
+{
+	if(pos < 0) {
+		print_bit_vector(bit_vector, lsb);
+		return;
+	}
+
+	/* Represent the possible combinations with current pos 0 */	
+	binary (bit_vector, pos-1, lsb);
+
+	/* Represent the possible combinations with current pos 1 */	
+	set_bit(bit_vector, pos);
+	binary (bit_vector, pos-1, lsb);
+	uset_bit(bit_vector, pos);
+
+	return;	
+}
+
+void combinate (char *c, const int len)
 {
 	int curr_len = 1;
 
@@ -64,12 +102,16 @@ int main()
 {
 	char ex[25] = "world";
 	int len = 0;
+	u32 bv = 0;
 
-	len = strlen(ex);
+//	len = strlen(ex);
 
-	printf("%d %s\n", len, ex);
-	permute(ex, 0, len);
-	printf("%d %s\n", len, ex);
-	
+//	printf("%d %s\n", len, ex);
+//	permute(ex, 0, len);
+//	printf("%d %s\n", len, ex);
+
+	binary(&bv, 4, 5);
+
 	return 0;
 }
+
