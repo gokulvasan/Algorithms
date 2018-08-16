@@ -102,9 +102,8 @@ void check_subset_sum (u32 *bit_vector, signed int lsb, void *subset1)
 				printf("%u, ", s->arr[i]);
 			i++;
 		} while(i <= lsb-1);
-		printf("}");
+		printf("}\n");
 	}
-	printf("\n");
 
 }
 #define set_bit(B, p)  ((*B) = ((*B) | (1 << p)))
@@ -153,7 +152,7 @@ int main()
 	char ex[25] = "abc";
 	int len = 0;
 	u32 bv = 0;
-	u32 arr[]={1,2,3,1,1,0};
+	u32 arr[]={1,2,3,1,1,0,};
 	int arr_len = A(arr);
 	
 	len = strlen(ex);
@@ -165,7 +164,7 @@ int main()
 //	binary(&bv, 4, 5);
 //	combinate(ex, len);
 	
-	subset_sum(arr, arr_len, 3);	
+	subset_sum(arr, arr_len, 4);	
 	return 0;
 }
 
