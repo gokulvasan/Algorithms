@@ -26,9 +26,7 @@ s32 check_height(node *root)
 	}
 
 	ret = l - r;
-	if(ret) {
-		printf("Not Balanced %d\n", ret);
-	}
+	
 RET:
 	return ret;
 }
@@ -36,5 +34,10 @@ RET:
 int main()
 {
 	create();
-	check_height(btree);
+	if(check_height(btree)) {
+		printf("Not Balanced\n");
+	}
+	else {
+		printf("Balanced\n");
+	}
 }

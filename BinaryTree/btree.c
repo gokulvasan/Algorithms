@@ -1,21 +1,8 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include "btree.h"
 
-typedef unsigned int u32;
-typedef signed int s32;
-
-typedef struct _node {
-	u32 key;
-	struct _node *l;
-	struct _node *r;
-}node;
-
-typedef enum _traversal_order {
-	preorder = 0,
-	inorder,
-	postorder
-} trav_order;
-
+#ifdef DEBUG
+#undef DEBUG
+#endif
 /* Global variable holding the btree*/
 node *btree = NULL;
 
@@ -60,15 +47,21 @@ s32 btree_insert_i(const u32 key, node **root)
 		goto FAIL;
 
 	if (t && key >= t->key) {
+#ifdef DEBUG
 		printf("r %d\n", key);
+#endif
 		t->r = n;
 	}
 	else if (t && key < t->key) {
+#ifdef DEBUG
 		printf("l %d\n", key);
+#endif
 		t->l = n;
 	}
 	else {
+#ifdef DEBUG
 		printf("root %d\n", key);
+#endif
 		*root = n;
 	}
 	ret = 0;
@@ -110,7 +103,26 @@ RET:
 	return ret;
 }
 
-s32 btree_traverse_inorder (const node *root)
+s32 btree_traverse_inorder(const node *root)
+{
+	s32 ret = -1;
+
+	if(!root) {
+		ret = 0;
+		goto RET;		
+	}
+
+	btree_traverse_inorder(root->l);
+	printf("%d, ", root->key);
+	btree_traverse_inorder(root->r);
+
+	ret = 1;
+
+RET:
+	return ret;
+}
+
+s32 btree_traverse_postorder(const node *root)
 {
 	s32 ret = -1;
 
@@ -121,15 +133,35 @@ s32 btree_traverse_inorder (const node *root)
 
 	btree_traverse_inorder(root->l);
 	btree_traverse_inorder(root->r);
-
 	printf("%d, ", root->key);
+
 	ret = 1;
 
 RET:
 	return ret;
 }
 
-int main()
+s32 btree_traverse_preorder(const node *root)
+{
+	s32 ret = -1;
+
+	if(!root) {
+		ret = 0;
+		goto RET;		
+	}
+
+	printf("%d, ", root->key);
+	btree_traverse_inorder(root->l);
+	btree_traverse_inorder(root->r);
+
+	ret = 1;
+
+RET:
+	return ret;
+
+}
+
+int create( )
 {
 	btree_insert_i(25, &btree);	
 	btree_insert_i(15, &btree);	
@@ -146,7 +178,16 @@ int main()
 	btree_insert_i(44, &btree);	
 	btree_insert_i(66, &btree);	
 	btree_insert_i(90, &btree);
+	btree_insert_i(74, &btree);
+	btree_insert_i(100, &btree);
 
+	printf("InOrder:\n");
 	btree_traverse_inorder(btree);
-	printf("\n");	
+#ifdef DEBUG
+	printf("\nPreOrder:\n");
+	btree_traverse_preorder(btree);
+	printf("\nPostOrder:\n");
+	btree_traverse_postorder(btree);
+#endif
+	printf("\n");
 }
